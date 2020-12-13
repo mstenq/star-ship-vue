@@ -25,27 +25,35 @@ export default new Vuex.Store({
         let shipsManufacturers = ship.manufacturer.split(', ')
         manufacturers = [...manufacturers, ...shipsManufacturers]
       })
-      //Use SET to get unique values
+
+      //Convert array to SET and back to filter to unique values
       let uniqueManufacturers = [...new Set(manufacturers)]
       state.manufacturers = uniqueManufacturers.sort()
     }
   },
   actions: {
+    /**
+     * 
+     * @param {Object} context - current context
+     */
       async getShips (context) {
         var payload = {}
         try{
           var url = `${baseUrl}/starships/`;
           var ships = []
+
+          //Keep fetching data while we have more results available
           do{
             let response = await fetch(url)
             let json = await response.json()          
             ships = [...ships, ...json.results]
             url = json.next
           }while(url)
+
           payload = {results: ships, isLoading: false}
         }catch(e){
           //Todo: Get Actual Error message
-          payload = {errorMessage: "Could not get ships", isLoading: false}
+          payload = {errorMessage: "Could not get ship data. Please try again later.", isLoading: false}
         }finally{
           context.commit('setShips', payload)
           context.commit('setUniqueManufacturers', payload)

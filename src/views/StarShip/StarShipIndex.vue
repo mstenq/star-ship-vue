@@ -1,6 +1,7 @@
 <template>
     <div>
-        <div v-if="!ships.isLoading">
+        <!-- TABLE -->
+        <div v-if="!ships.isLoading && !ships.errorMessage">
             <div class="flex justify-between py-4 items-center">
                 <p>Found: {{ filteredShips.length }}</p>
                 <ManufacturerFilter @filter="updateFilter" />
@@ -12,6 +13,15 @@
                 </tbody>
             </table>
         </div>
+
+
+        <!-- ERROR MESSAGE -->
+        <div v-else-if="!ships.isLoading" class="pt-8">
+                <p class="font-bold text-gray-400 text-sm">ERROR</p>
+                <h2 class="text-3xl font-thin">{{ ships.errorMessage }}</h2>
+        </div>
+
+        <!-- LOADING SCREEN -->
         <div v-else class="flex justify-center pt-8">
             <img src="@/assets/images/loading.gif"/>
         </div>
@@ -76,6 +86,8 @@ export default {
             }else{
                 this.sortDirection = "asc"
             }
+
+            //Update the sortBy key
             this.sortBy = value
         }
     }
