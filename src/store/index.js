@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-const baseUrl = 'https://swapi.dev/api/'
+const baseUrl = 'https://swapi.dev/api'
 
 
 Vue.use(Vuex)
@@ -31,12 +31,18 @@ export default new Vuex.Store({
     }
   },
   actions: {
-      async getShips (context, page = 1) {
+      async getShips (context) {
         var payload = {}
         try{
-          const response = await fetch(`${baseUrl}starships/?page=${page}`)
-          const ships = await response.json()            
-          payload = {...ships, isLoading: false}
+          var url = `${baseUrl}/starships/`;
+          var ships = []
+          do{
+            let response = await fetch(url)
+            let json = await response.json()          
+            ships = [...ships, ...json.results]
+            url = json.next
+          }while(url)
+          payload = {results: ships, isLoading: false}
         }catch(e){
           //Todo: Get Actual Error message
           payload = {errorMessage: "Could not get ships", isLoading: false}

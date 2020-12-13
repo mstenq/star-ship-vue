@@ -1,32 +1,16 @@
 <template>
-    <div class="">
+    <div>
         <div v-if="!ships.isLoading">
-            <div class="flex justify-end py-4">
+            <div class="flex justify-between py-4 items-center">
+                <p>Found: {{ filteredShips.length }}</p>
                 <ManufacturerFilter @filter="updateFilter" />
             </div>
             <table class="table-auto w-full border">
-                <StarShipHeader />
+                <StarShipHeader @sort="updateSort" :sortInfo="{sortBy, sortDirection}" />
                 <tbody>
-                    <StarShipRow v-for="ship in filteredShips" :key="ship.url" :ship="ship" />
+                    <StarShipRow v-for="ship in sortedShips" :key="ship.url" :ship="ship" />
                 </tbody>
             </table>
-            <div class="flex justify-between items-center py-2">
-                <p>Count: {{ ships.count }}</p>
-                <div class="flex space-x-2">
-                    <button 
-                        @click="loadData(prevPage)"
-                        :disabled="!prevPage"
-                        class="btn">
-                        Prev
-                    </button>
-                    <button 
-                        @click="loadData(nextPage)"
-                        :disabled="!nextPage"
-                        class="btn">
-                        Next
-                    </button>
-                </div>
-            </div>
         </div>
         <div v-else class="flex justify-center pt-8">
             <img src="@/assets/images/loading.gif"/>
@@ -45,7 +29,9 @@ export default {
     components: { StarShipHeader, StarShipRow, ManufacturerFilter },
     data(){
         return{
-            manufacturerFilter: null
+            manufacturerFilter: null,
+            sortBy: 'name',
+            sortDirection: 'asc'
         }
     },
     mounted(){
@@ -53,12 +39,6 @@ export default {
     },
     computed: {
         ...mapState(['ships']),
-        nextPage(){
-            return this.getPageFromURL(this.ships.next)
-        },
-        prevPage(){
-            return this.getPageFromURL(this.ships.previous)
-        },
         filteredShips(){
             //If no filter set, return all
             if(!this.manufacturerFilter){
@@ -72,14 +52,31 @@ export default {
                     .toLowerCase()
                     .includes(this.manufacturerFilter)
             })
+        },
+        sortedShips(){
+            var ships = this.filteredShips
+            var sortDirectionA = this.sortDirection === "asc" ? 1 : -1
+            var sortDirectionB = this.sortDirection === "asc" ? -1 : 1
+            return ships.sort((a,b) => {
+                return a[this.sortBy].toLowerCase() > b[this.sortBy].toLowerCase() ? sortDirectionA : sortDirectionB
+            })
         }
     },
     methods:{
-        loadData(page=1){
-            this.$store.dispatch('getShips', page)
+        loadData(){
+            this.$store.dispatch('getShips')
         },
-        updateFilter(manufacturer){
+        updateFilter(manufacturer){            
             this.manufacturerFilter = manufacturer.toLowerCase()
+        },
+        updateSort(value){
+            //see if sort direction needs to change
+            if( this.sortBy === value && this.sortDirection === "asc"){
+                this.sortDirection = "desc"
+            }else{
+                this.sortDirection = "asc"
+            }
+            this.sortBy = value
         }
     }
 }

@@ -2,15 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+
 th,td{
     @apply px-3 py-1;
 }
 
-
 tr:nth-child(even){
     @apply bg-gray-100;
 }
-
 
 .btn{
     @apply border rounded shadow py-1 px-3;
@@ -18,4 +17,4 @@ tr:nth-child(even){
 
 .btn:disabled {
     @apply text-gray-400 bg-gray-100;
-  }
+}
