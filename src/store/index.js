@@ -7,11 +7,27 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state:{
-    ships: {isLoading: true}      
+    ships: {isLoading: true} ,
+    manufacturers: []     
   },
   mutations: {
     setShips (state, payload) {
       state.ships = payload
+    },
+    /**
+     * Parse out the unique manufacturers and save them to the store.
+     * @param {object} state 
+     * @param {object} payload - This should be the JSON response object from SWAPI ships api.
+     */
+    setUniqueManufacturers(state, payload){
+      var manufacturers = state.manufacturers
+      payload.results.forEach(ship => {
+        let shipsManufacturers = ship.manufacturer.split(', ')
+        manufacturers = [...manufacturers, ...shipsManufacturers]
+      })
+      //Use SET to get unique values
+      let uniqueManufacturers = [...new Set(manufacturers)]
+      state.manufacturers = uniqueManufacturers.sort()
     }
   },
   actions: {
@@ -26,6 +42,7 @@ export default new Vuex.Store({
           payload = {errorMessage: "Could not get ships", isLoading: false}
         }finally{
           context.commit('setShips', payload)
+          context.commit('setUniqueManufacturers', payload)
         }
       }
   }

@@ -1,10 +1,13 @@
 <template>
     <div class="">
         <div v-if="!ships.isLoading">
+            <div class="flex justify-end py-4">
+                <ManufacturerFilter @filter="updateFilter" />
+            </div>
             <table class="table-auto w-full border">
                 <StarShipHeader />
                 <tbody>
-                    <StarShipRow v-for="ship in ships.results" :key="ship.url" :ship="ship" />
+                    <StarShipRow v-for="ship in filteredShips" :key="ship.url" :ship="ship" />
                 </tbody>
             </table>
             <div class="flex justify-between items-center py-2">
@@ -35,17 +38,18 @@
 import { mapState } from 'vuex'
 import StarShipHeader from './StarShipHeader'
 import StarShipRow from './StarShipRow'
+import ManufacturerFilter from './ManufacturerFilter'
 
 export default {
     name: "StarShipIndex",
-    components: { StarShipHeader, StarShipRow },
+    components: { StarShipHeader, StarShipRow, ManufacturerFilter },
+    data(){
+        return{
+            manufacturerFilter: null
+        }
+    },
     mounted(){
         this.loadData()
-    },
-    methods:{
-        loadData(page=1){
-            this.$store.dispatch('getShips', page)
-        }
     },
     computed: {
         ...mapState(['ships']),
@@ -54,6 +58,28 @@ export default {
         },
         prevPage(){
             return this.getPageFromURL(this.ships.previous)
+        },
+        filteredShips(){
+            //If no filter set, return all
+            if(!this.manufacturerFilter){
+                return this.ships.results
+            }
+
+            //Filter ships by manufacturer
+            var ships = [...this.ships.results]
+            return ships.filter( ship => {
+                return ship.manufacturer
+                    .toLowerCase()
+                    .includes(this.manufacturerFilter)
+            })
+        }
+    },
+    methods:{
+        loadData(page=1){
+            this.$store.dispatch('getShips', page)
+        },
+        updateFilter(manufacturer){
+            this.manufacturerFilter = manufacturer.toLowerCase()
         }
     }
 }

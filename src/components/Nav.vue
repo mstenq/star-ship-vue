@@ -8,7 +8,7 @@
           <a class="text-white font-bold">SWAPI Industries</a>
           <div>
             <div class="ml-10 flex items-baseline space-x-4">
-              <router-link :to="{ name: 'StarShipIndex' }" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Star Ship</router-link>
+              <router-link :to="{ name: 'StarShipIndex' }" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Star Ships</router-link>
               <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Vehicles</a>
               <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Species</a>
               <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Planets</a>
