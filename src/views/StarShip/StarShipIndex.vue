@@ -3,7 +3,9 @@
         <div v-if="!ships.isLoading">
             <table class="table-auto w-full border">
                 <StarShipHeader />
-                <StarShipRow v-for="ship in ships.results" :key="ship.url" :ship="ship" />
+                <tbody>
+                    <StarShipRow v-for="ship in ships.results" :key="ship.url" :ship="ship" />
+                </tbody>
             </table>
             <div class="flex justify-between items-center py-2">
                 <p>Count: {{ ships.count }}</p>
@@ -23,14 +25,13 @@
                 </div>
             </div>
         </div>
-        <div v-else>
-            Loading...
+        <div v-else class="flex justify-center pt-8">
+            <img src="@/assets/images/loading.gif"/>
         </div>
     </div>
 </template>
 
 <script>
-
 import { mapState } from 'vuex'
 import StarShipHeader from './StarShipHeader'
 import StarShipRow from './StarShipRow'
