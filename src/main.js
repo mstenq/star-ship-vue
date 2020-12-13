@@ -7,20 +7,6 @@ import router from './router'
 
 Vue.config.productionTip = false
 
-Vue.mixin({
-  methods:{
-    getPageFromURL(url){
-      //TODO: Make this method better incase additional query params are passed
-      if(!url){
-          return null
-      }
-      
-      let urlList = url.split("=")
-      return urlList[urlList.length-1]
-    }
-  }
-})
-
 new Vue({
   store,
   router,

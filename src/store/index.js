@@ -11,9 +11,17 @@ export default new Vuex.Store({
     manufacturers: []     
   },
   mutations: {
+
+    /**
+     * Update ships state
+     * @param {Object} state 
+     * @param {Object} payload 
+     */
     setShips (state, payload) {
       state.ships = payload
     },
+
+
     /**
      * Parse out the unique manufacturers and save them to the store.
      * @param {object} state 
@@ -33,7 +41,7 @@ export default new Vuex.Store({
   },
   actions: {
     /**
-     * 
+     * fetches all of the ships from the API, then gets unique manufacturers.
      * @param {Object} context - current context
      */
       async getShips (context) {
@@ -43,6 +51,7 @@ export default new Vuex.Store({
           var ships = []
 
           //Keep fetching data while we have more results available
+          //Definitely a bad idea with tons of data, but for only 36 records this will be better than pagination.
           do{
             let response = await fetch(url)
             let json = await response.json()          
