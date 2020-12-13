@@ -5,7 +5,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-16">
         <div class="flex items-center">
-          <a class="text-white font-bold">SWAPI Industries</a>
+          <img class="h-4" src="@/assets/images/star-wars-logo.png"/>
           <div>
             <div class="ml-10 flex items-baseline space-x-4">
               <router-link :to="{ name: 'StarShipIndex' }" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Star Ships</router-link>
@@ -16,6 +16,10 @@
               <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Films</a>
             </div>
           </div>
+        </div>
+        <div class="flex space-x-4 items-center">
+          <p class="text-white">Welcome FN-2187</p>
+          <img class="avatar" src="@/assets/images/avatar.png"/>
         </div>
       </div>
     </div>
@@ -35,5 +39,10 @@
 <style scoped>
 .router-link-active{
     @apply bg-gray-900 text-white;
+}
+.avatar{
+  @apply rounded-full object-cover;
+  width: 40px;
+  height: 40px;
 }
 </style>
