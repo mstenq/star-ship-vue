@@ -16,15 +16,16 @@ export default new Vuex.Store({
   },
   actions: {
       async getShips (context, page = 1) {
+        var payload = {}
         try{
           const response = await fetch(`${baseUrl}starships/?page=${page}`)
           const ships = await response.json()            
-          let payload = {...ships, isLoading: false}
-          console.log(payload)
-          context.commit('setShips', payload)
+          payload = {...ships, isLoading: false}
         }catch(e){
-
+          //Todo: Get Actual Error message
+          payload = {errorMessage: "Could not get ships", isLoading: false}
         }finally{
+          context.commit('setShips', payload)
         }
       }
   }

@@ -10,3 +10,12 @@ th,td{
 tr:nth-child(even){
     @apply bg-gray-100;
 }
+
+
+.btn{
+    @apply border rounded shadow py-1 px-3;
+}
+
+.btn:disabled {
+    @apply text-gray-400 bg-gray-100;
+  }

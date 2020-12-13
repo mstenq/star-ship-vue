@@ -2,26 +2,26 @@
     <div class="">
         <div v-if="!ships.isLoading">
             <table class="table-auto w-full border">
-                <thead>
-                    <tr class="text-left bg-gray-800 text-white">
-                        <th>
-                            <p>Ship Name</p>
-                            <p class="font-thin text-sm">Class</p>
-                        </th>
-                        <th>
-                            <p>Manufacturer</p>
-                            <p class="font-thin text-sm">Model</p>
-                        </th>
-                        <th class="text-right">Crew</th>
-                        <th class="text-right">Passengers</th>
-                        <th class="text-right">Hyperdriver Rating</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <StarShipRow v-for="ship in ships.results" :key="ship.url" :ship="ship" />
-                </tbody>
+                <StarShipHeader />
+                <StarShipRow v-for="ship in ships.results" :key="ship.url" :ship="ship" />
             </table>
-            Count: {{ ships.count }}
+            <div class="flex justify-between items-center py-2">
+                <p>Count: {{ ships.count }}</p>
+                <div class="flex space-x-2">
+                    <button 
+                        @click="loadData(prevPage)"
+                        :disabled="!prevPage"
+                        class="btn">
+                        Prev
+                    </button>
+                    <button 
+                        @click="loadData(nextPage)"
+                        :disabled="!nextPage"
+                        class="btn">
+                        Next
+                    </button>
+                </div>
+            </div>
         </div>
         <div v-else>
             Loading...
@@ -32,11 +32,12 @@
 <script>
 
 import { mapState } from 'vuex'
+import StarShipHeader from './StarShipHeader'
 import StarShipRow from './StarShipRow'
 
 export default {
     name: "StarShipIndex",
-    components: { StarShipRow },
+    components: { StarShipHeader, StarShipRow },
     mounted(){
         this.loadData()
     },
@@ -46,7 +47,13 @@ export default {
         }
     },
     computed: {
-        ...mapState(['ships'])
+        ...mapState(['ships']),
+        nextPage(){
+            return this.getPageFromURL(this.ships.next)
+        },
+        prevPage(){
+            return this.getPageFromURL(this.ships.previous)
+        }
     }
 }
 
