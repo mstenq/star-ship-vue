@@ -1,5 +1,4 @@
 <template>
-<!-- This example requires Tailwind CSS v2.0+ -->
 <div>
   <nav class="bg-gray-800">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -7,13 +6,13 @@
         <div class="flex items-center">
           <img class="h-4" src="@/assets/images/star-wars-logo.png"/>
           <div>
-            <div class="ml-10 flex items-baseline space-x-4">
-              <router-link :to="{ name: 'StarShipIndex' }" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Star Ships</router-link>
-              <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Vehicles</a>
-              <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Species</a>
-              <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Planets</a>
-              <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">People</a>
-              <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Films</a>
+            <div class="ml-10 flex items-baseline space-x-8">
+              <router-link :to="{ name: 'StarShipIndex' }" class="nav-link">Star Ships</router-link>
+              <a href="#" class="nav-link">Vehicles</a>
+              <a href="#" class="nav-link">Species</a>
+              <a href="#" class="nav-link">Planets</a>
+              <a href="#" class="nav-link">People</a>
+              <a href="#" class="nav-link">Films</a>
             </div>
           </div>
         </div>
@@ -44,5 +43,9 @@
   @apply rounded-full object-cover;
   width: 40px;
   height: 40px;
+}
+
+.nav-link{
+  @apply text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium;
 }
 </style>
